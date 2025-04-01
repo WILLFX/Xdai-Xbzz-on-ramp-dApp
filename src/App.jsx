@@ -10,51 +10,51 @@ const steps = [
     title: "Step 1",
     description:
       'Select first the method of payment (in this case by credit card), then select the currency you want to purchase xDai with. Select xDai in the ‘You Get’ section, after that select the network you want to use (Gnosis chain by default) and then click "BUY XDAI".',
-    image: "/step1.jpg",
+    image: "step1.jpg",
   },
   {
     title: "Step 2",
     description: "Enter your phone number and click next.",
-    image: "/step2.jpg",
+    image: "step2.jpg",
   },
   {
     title: "Step 3",
     description:
       'Write your email address, mark the checkbox "I accept the T&C of Mt Pelerin" and click next.',
-    image: "/step3.jpg",
+    image: "step3.jpg",
   },
   {
     title: "Step 4",
     description:
       "You will be registered to Mt Pelerin. They will tell you your transaction limits (OPTIONAL: upgrade by selecting 'Identity').",
-    image: "/step4.jpg",
+    image: "step4.jpg",
   },
   {
     title: "Step 5",
     description: "Now connect your wallet in order to choose a receiving address.",
-    image: "/step5.jpg",
+    image: "step5.jpg",
   },
   {
     title: "Step 6",
     description:
       "Choose the wallet address where you want to receive your funds. Mt Pelerin will display the chain. Click 'Validate this address' and then click Next.",
-    image: "/step6.jpg",
+    image: "step6.jpg",
   },
   {
     title: "Step 7",
     description: 'Fill in your credit card information and click "BUY XDAI".',
-    image: "/step7.jpg",
+    image: "step7.jpg",
   },
   {
     title: "Step 8",
     description: "Wait for confirmation.",
-    image: "/step8.jpg",
+    image: "step8.jpg",
   },
   {
     title: "Step 9",
     description:
       'If payment is approved, it will display "Payment successful" and show transaction info.',
-    image: "/step9.jpg",
+    image: "step9.jpg",
   },
 ];
 
