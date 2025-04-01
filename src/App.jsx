@@ -9,7 +9,7 @@ const steps = [
   {
     title: "Step 1",
     description:
-      'Select first the method of payment (in this case by credit card), then select the currency you want to purchase xDai with. Select xDai in the ‘You Get’ section, after that select the network you want to use (Gnosis chain by default) and then click "BUY XDAI".',
+      'Select first the method of payment (credit card), select the currency you want to purchase xDai with. In the “You Get” section, pick xDai, then choose the Gnosis chain and click "BUY XDAI".',
     image: "step1.jpg",
   },
   {
@@ -20,29 +20,29 @@ const steps = [
   {
     title: "Step 3",
     description:
-      'Write your email address, mark the checkbox "I accept the T&C of Mt Pelerin" and click next.',
+      'Write your email address, mark "I accept the T&C of Mt Pelerin" and click next.',
     image: "step3.jpg",
   },
   {
     title: "Step 4",
     description:
-      "You will be registered to Mt Pelerin. They will tell you your transaction limits (OPTIONAL: upgrade by selecting 'Identity').",
+      "You’ll be registered to Mt Pelerin. They’ll display your transaction limits (OPTIONAL: upgrade your identity if needed).",
     image: "step4.jpg",
   },
   {
     title: "Step 5",
-    description: "Now connect your wallet in order to choose a receiving address.",
+    description: "Connect your wallet to choose a receiving address.",
     image: "step5.jpg",
   },
   {
     title: "Step 6",
     description:
-      "Choose the wallet address where you want to receive your funds. Mt Pelerin will display the chain. Click 'Validate this address' and then click Next.",
+      "Choose the wallet address to receive your funds. Mt Pelerin shows the chain below. Click 'Validate this address,' then 'Next.'",
     image: "step6.jpg",
   },
   {
     title: "Step 7",
-    description: 'Fill in your credit card information and click "BUY XDAI".',
+    description: 'Fill in your credit card info and click "BUY XDAI".',
     image: "step7.jpg",
   },
   {
@@ -53,7 +53,7 @@ const steps = [
   {
     title: "Step 9",
     description:
-      'If payment is approved, it will display "Payment successful" and show transaction info.',
+      'If the payment is approved, it shows "Payment successful" and transaction info.',
     image: "step9.jpg",
   },
 ];
@@ -71,7 +71,7 @@ const swapParams = {
     "https://files.cow.fi/tokens/CowSwap.json",
   ],
   tradeType: TradeType.SWAP,
-  sell: { asset: "xdai", amount: "0" },
+  sell: { asset: "xdai", amount: "100000" },
   buy: { asset: "bzz", amount: "0" },
   forcedOrderDeadline: 1,
   enabledTradeTypes: [TradeType.SWAP],
@@ -90,12 +90,10 @@ const swapParams = {
  * ADD BZZ BUTTON
  ********************************************************************/
 function AddBzzButton() {
-  // The official xBZZ address on Gnosis (as you provided):
   const BZZ_ADDRESS = "0xdBF3Ea6F5beE45c02255B2c26a16F300502F68da";
 
   async function addBZZtoWallet() {
     if (!window.ethereum) return;
-
     try {
       await window.ethereum.request({
         method: "wallet_watchAsset",
@@ -105,7 +103,6 @@ function AddBzzButton() {
             address: BZZ_ADDRESS,
             symbol: "BZZ",
             decimals: 18,
-            // optional: link to a BZZ logo image
             image: "https://yourdomain.com/bzz-logo.png",
           },
         },
@@ -167,7 +164,7 @@ export default function App() {
   useEffect(() => {
     if (!wrongNetwork) {
       // We'll show a spinner for ~1.5s to mimic the widget's load time
-      const timer = setTimeout(() => setWidgetLoading(false), 4500);
+      const timer = setTimeout(() => setWidgetLoading(false), 1500);
       return () => clearTimeout(timer);
     } else {
       // If they switch back to a wrong network, re-enable loading
@@ -182,9 +179,7 @@ export default function App() {
     if (provider && provider.on) {
       provider.on("accountsChanged", (accounts) => {
         if (accounts && accounts.length > 0) {
-          // Show popup
           setShowConnectedPopup(true);
-          // Hide popup automatically after 3s
           setTimeout(() => setShowConnectedPopup(false), 3000);
         }
       });
@@ -195,16 +190,14 @@ export default function App() {
    * SWITCH NETWORK FUNCTION
    ********************************************************************/
   const switchToGnosis = async () => {
-    // Show the overlay
     setIsSwitching(true);
-
     try {
       await provider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x64" }],
       });
       setWrongNetwork(false);
-      setIsSwitching(false); // Hide overlay on success
+      setIsSwitching(false);
     } catch (switchError) {
       // If Gnosis is not added, we prompt to add it
       try {
@@ -228,7 +221,7 @@ export default function App() {
       } catch (addError) {
         console.error("Failed to add Gnosis Chain:", addError);
       }
-      setIsSwitching(false); // Hide overlay even if error
+      setIsSwitching(false);
     }
   };
 
@@ -242,7 +235,6 @@ export default function App() {
   /********************************************************************
    * RENDER UI
    ********************************************************************/
-  // The container classes differ if darkMode is on or off:
   const containerClass = darkMode
     ? "dark bg-gray-900 text-white"
     : "bg-gray-100 text-black";
@@ -271,13 +263,26 @@ export default function App() {
         </div>
       )}
 
-      {/* THEME TOGGLE BUTTON (top-right corner) */}
-      <button
-        onClick={toggleTheme}
-        className="absolute top-5 right-5 bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded shadow"
-      >
-        {darkMode ? "Light Mode" : "Dark Mode"}
-      </button>
+      {/* THEME TOGGLE + DOCUMENTATION (top-right corner) */}
+      <div className="absolute top-5 right-5 flex space-x-2">
+        {/* Documentation Button */}
+        <a
+          href="https://github.com/WILLFX/Xdai-Xbzz-on-ramp-dApp"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow"
+        >
+          Documentation
+        </a>
+
+        {/* Dark/Light Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded shadow"
+        >
+          {darkMode ? "Light Mode" : "Dark Mode"}
+        </button>
+      </div>
 
       <div className="max-w-5xl mx-auto">
         {/* HERO SECTION */}
@@ -337,7 +342,9 @@ export default function App() {
           >
             <h3 className="text-xl font-bold mb-2">🎉 Congratulations!</h3>
             <p>
-              You now have successfully purchased xDai on Mt Pelerin. .
+              You now have successfully purchased xDai on Mt Pelerin. If you need
+              further help, feel free to go through the steps again or reach out
+              to our team.
             </p>
           </div>
         </section>
@@ -349,7 +356,7 @@ export default function App() {
               darkMode ? "text-purple-400" : "text-purple-600"
             }`}
           >
-            🔄 Alreay Have Xdai? Swapp to Xbzz👇
+            🔄 Step 2: Swap to xBZZ
           </h2>
 
           {wrongNetwork ? (
@@ -363,9 +370,9 @@ export default function App() {
               </p>
               <button
                 className="mt-3 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                onClick={async () => {
+                onClick={() => {
                   setIsSwitching(true);
-                  await switchToGnosis();
+                  switchToGnosis();
                 }}
               >
                 Switch to Gnosis
